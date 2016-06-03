@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="jquery.min.js"></script>
+    <style>
+        .myClass{
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+
+    <ul>
+        <li>hello1</li>
+        <li>hello2</li>
+        <li>
+            <ul>
+                <li>hello nested !</li>
+            </ul>
+        </li>
+    </ul>
+
+<script>
+    var list = $('ul');
+    $ ('ul').children('li').first().append('<p>paragraph text</p>');
+    // appened paragraph only with list item which is the first children of ul
+</script>
+</body>
+</html>

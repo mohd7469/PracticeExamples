@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<script>
+
+    var car = {
+        name: "Honda",
+        model: "2005",
+        color: "white"
+    };
+
+    alert( car.name );
+
+    var person = {
+        firstName: "Mohammad",
+        lastName: "Awais",
+        age: 20,
+        fullName : function() {
+            return this.firstName + " " + this.lastName;
+        }
+    };
+
+    alert(person.fullName());
+    alert(person["firstName"] + " " + person["lastName"]);
+    alert(person.firstName + " " + person.lastName + " is " + person.age + " years old.");
+
+</script>
+</body>
+</html>

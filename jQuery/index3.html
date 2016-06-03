@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="jquery.min.js"></script>
+    <style>
+        .listColor {
+            color: green;
+        }
+    </style>
+    <script>
+        function myFunc(){
+            var list = $('ul li');
+            list.addClass('listColor');
+            console.log(list);
+        }
+        $(document).ready(myFunc());
+        // it is not working
+        // ?????????????????????????????????????????
+
+    </script>
+</head>
+<body>
+
+<ul>
+    <li>hello</li>
+    <li>hello</li>
+    <li>hello</li>
+</ul>
+
+
+</body>
+</html>

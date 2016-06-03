@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" data-ng-app="basicApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Init Angular app</title>
+    <script src="./angular.min.js"></script>
+</head>
+<body>
+<h3>ng data-populating</h3>
+<div data-ng-controller="MainCtrl">
+    <h4>Users list</h4>
+    <button data-ng-click="fetchUsers()" data-ng-hide="status.sending">Fetch Now</button>
+    <p data-ng-show="status.sending">Fetching..</p>
+    <p data-ng-show="status.error">{{status.error}}</p>
+    <div data-ng-hide="status.sending || status.error || !users.length">
+        filter: <input type="text" data-ng-model="search"/>
+        <ul>
+            <li data-ng-repeat="user in users | filter: search">
+                {{user.name | uppercase}}
+            </li>
+        </ul>
+    </div>
+</div>
+<script>
+    var app = angular
+            .module('basicApp', []);
+
+    app.constant('APP_CONSTANT', {
+        baseURL: 'http://jsonapi.org/examples/articles'
+    });
+
+    app.factory('userFactory', function ($http, $q, APP_CONSTANT) {
+        return {
+            fetchUsers: fetchUsers
+        };
+
+        //gets users list from server
+        function fetchUsers() {
+            console.log('requesting');
+            var deferred;
+            deferred = $q.defer();
+            console.log(deferred);
+
+
+            //mock - AJAX
+            setTimeout(function () {
+                deferred.resolve([
+                    {
+                        id: '1',
+                        name: 'User1'
+                    }, {
+                        id: '2',
+                        name: 'User2'
+                    }, {
+                        id: '3',
+                        name: 'User3'
+                    }
+                ]);
+            }, 2000);
+//            deferred.reject('you do not have any list of users.');
+
+            return deferred.promise;
+
+
+//      return $http.get(APP_CONSTANT.baseURL + '/')
+//          .then(function (res) {
+//            console.log(res);
+//          }, function (reason) {
+//            console.log(reason);
+//          });
+        }
+
+    });
+
+    app.controller('MainCtrl', function ($scope, userFactory) {
+        console.log('ctrl initialized');
+
+        /*VM properties*/
+        $scope.search = '';
+        $scope.title = 'ng init app';
+        $scope.users = [];
+        $scope.status = {
+            sending: false,
+            error: ''
+        };
+
+        /*VM functions*/
+        $scope.fetchUsers = fetchUsers;
+
+
+        /*Initialization*/
+//    fetchUsers();
+
+
+        /*functions declarations*/
+
+        //fetches users list
+
+
+        function fetchUsers() {
+
+            $scope.status.sending = true;
+            $scope.status.error = '';
+
+            userFactory.fetchUsers()
+                    .then(function (users) {
+
+                        $scope.status.sending = false;
+                        $scope.users = users;
+
+                        console.log('hey ! got data');
+                    }, function (reason) {
+
+                        $scope.status.sending = false;
+                        $scope.status.error = reason;
+
+                        console.log('users not found', reason);
+                    });
+        }
+    });
+
+</script>
+</body>
+</html>

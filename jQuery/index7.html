@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="jquery.min.js"></script>
+    <style>
+        .myClass{
+            color: blue;
+        }
+        .anotherClass{
+            color: red;
+        }
+
+    </style>
+</head>
+<body>
+
+    <ul>
+        <li>hello1</li>
+        <li class="myClass">hello2</li>
+        <li>hello2</li>
+        <li>hello2</li>
+    </ul>
+
+<script>
+    var list = $('ul');
+    list.children('li')
+            .eq(0)
+            .next()
+            .removeClass('myClass')
+            .addClass('anotherClass');
+    list.
+            parent()
+            .addClass('myClass');
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<script>
+
+    function Cat(name) {
+        this.name = name;
+    }
+    Cat.prototype.talk = function() {
+        alert( this.name + " say meeaow!" )
+    };
+
+    var SnowBell = new Cat("SnowBell");
+    SnowBell.talk();
+
+    var Tom = new Cat("Tom");
+    Tom.talk();
+
+
+</script>
+</body>
+</html>

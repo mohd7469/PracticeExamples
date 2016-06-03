@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<script>
+
+    function Class1()
+    {
+        this.a = 7;
+        this.foo = function(b)
+        {
+            alert(this.a * b - 8);
+        }
+    }
+    function Class2()
+    {
+        Class1.call(this);
+//        console.warn(this)
+    }
+    var c2 = new Class2();
+    c2.foo(2);
+
+
+</script>
+</body>
+</html>

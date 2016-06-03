@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<script>
+
+    function Employe(name, salary){
+        this.name = name;
+        this.presence = false;
+        this.totalDays = 0;
+        this.salary = salary;
+    }
+    Employe.prototype.getPerDay = function () {
+        return this.salary / 30 ;
+    };
+    Employe.prototype.getSalary = function () {
+        return this.salary;
+    };
+    Employe.prototype.checkIn = function () {
+        this.totalDays++;
+        this.presence = true;
+        return (this.name + ' is ' + this.totalDays + ' days present');
+    };
+
+    Employe.prototype.getStatus = function () {
+        return (this.name + ' : ' + (this.presence ? (this.totalDays + ' present') : 'absent' ));
+    };
+    var shahzad = new Employe('Shahzad', 65000);
+    var awais = new Employe('Awais', 15000);
+    console.log(awais.checkIn());
+    console.log(awais.checkIn());
+    console.log(awais.checkIn());
+    console.log(awais.checkIn());
+    console.log(awais.checkIn());
+
+    console.log(awais.getStatus());
+    console.log(shahzad.getStatus());
+
+    console.log(shahzad.checkIn());
+    console.log(shahzad.getStatus());
+
+
+
+</script>
+</body>
+</html>

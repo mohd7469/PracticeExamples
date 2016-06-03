@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="jquery.min.js"></script>
+    <style>
+        .blue{
+            color: blue;
+        }
+        .green{
+            color: green;
+        }
+        .red{
+            color: red;
+        }
+        .pink{
+            color: pink;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="red">
+    <p>
+        this is paragraph
+    </p>
+    <ul class="green">
+        <li>hello1</li>
+        <li class="blue">hello2</li>
+    </ul>
+</div>
+
+<script>
+    var list = $('li.blue');
+    list.parent().removeClass('green').addClass('blue');
+    list.addClass('green');
+    list.parents().removeClass('red').addClass('pink')
+</script>
+</body>
+</html>

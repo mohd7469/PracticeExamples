@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="jquery.min.js"></script>
+    <style>
+        li {color: red} /*select all list itms*/
+        ul.myClass > li{color: black}
+        /*select all list itms which are direct children of its parents*/
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>
+        hello!
+    </h1>
+    <p>
+        this is  a paragraph
+    </p>
+    <ul class="myClass">
+        <li>hello1</li>
+        <li>hello2</li>
+        <li>
+            <ul>
+                <li>hello nested !</li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<script>
+    var list = $('ul.myClass');
+//    list.children('li').css('color','green'); // apply on direct children
+    list.find('li').css('color','green'); // apply on every children and nested children
+</script>
+</body>
+</html>

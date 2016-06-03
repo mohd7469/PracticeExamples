@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!--<html lang="en" data-ng-app="basicApp">-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Init Angular app</title>
+    <script src="./angular.min.js"></script>
+    <!--<script src="./main.js"></script>-->
+</head>
+<body>
+<h3>ng Bootstrap/init</h3>
+<div data-ng-controller="MainCtrl">
+    <h6>main ctrl content</h6>
+    <h6>app title: {{name}}</h6>
+</div>
+<script>
+    //  angular.bootstrap(document, ['basicApp']);
+
+    var app = angular.module('basicApp', []);
+
+    app.run(function () {
+        console.log('App initialized');
+    });
+
+    app.controller('MainCtrl', function($scope){
+        console.log('ctrl initialized');
+
+        $scope.title = 'ng init app';
+    });
+
+    /*angular util methods*/
+    //  var a = {x: 'foo'};
+    //  console.log(angular.isObject(a));
+    angular.element(document).find('body').ready(function() {console.log('DOM loaded');});
+
+    console.log('test log 1');
+
+    //bad practice - but works
+    //  angular.bootstrap(document, ['basicApp']);
+
+    //best practice - yes works as well
+    angular.element(document).find('body').ready(function() {
+        console.log('ng init ready log');
+        angular.bootstrap(document, ['basicApp']);
+    });
+
+
+    console.log('test log 2');
+
+</script>
+<!--<script src="../common/angular-1.5.5/angular.min.js"></script>-->
+</body>
+</html>

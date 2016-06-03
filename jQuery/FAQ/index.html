@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>jQuery FAQ's</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<dl>
+    <dt>what are your hours?</dt>
+        <dd>we are open 24/7</dd>
+    <dt>what are your off days?</dt>
+        <dd>close on sunday</dd>
+    <dt>what's your company name?</dt>
+        <dd>A.S Pvt.ltd</dd>
+    <dt>what's your company licened?</dt>
+        <dd>ICO - 1996</dd>
+    <dt>how can i contact?</dt>
+        <dd>021-12345678</dd>
+</dl>
+
+
+<script src="../jquery.min.js"></script>
+<script>
+    (function () {
+        var dd = $('dd');
+        dd.filter(':nth-child(n+4)').hide();
+
+        $('dl').on('mouseenter', 'dt', function () {
+
+            $(this).next().siblings('dd').slideUp(250);
+            $(this).next().slideDown(250);
+        })
+    })();
+</script>
+
+</body>
+</html>

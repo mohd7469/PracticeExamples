@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myAPP">
+<head>
+  <meta charset="UTF-8">
+  <title>AJAX TODO</title>
+  <script src="./angular.min.js"></script>
+  <script src="./jquery.min.js"></script>
+</head>
+<body>
+<h2>AJAX TODO APP</h2>
+<div ng-controller="TodoCtrl">
+
+        <form data-ng-submit="addTodoList(newTodoObject)">
+            Name : <input type="text" ng-model="newTodoObject.name"/><br/>
+            ID : <input type="number" ng-model="newTodoObject.id"/><br/>
+            <input type="submit" value="save"/>
+        </form>
+
+    <button ng-click="fetchTodoList()">Refresh</button>
+  <ul>
+    <li ng-repeat="todo in todos">{{todo.text}}</li>
+  </ul>
+</div>
+<script>
+  var app = angular.module('myAPP', []);
+
+  app.constant('APP_CONSTANT', {
+    baseURL: 'http://localhost:3000'
+  });
+  app.config(function ($httpProvider) {
+      $httpProvider.defaults.withCredentials = true;
+  });
+
+  app.factory('todoFactory', todoFactory);
+  app.controller('TodoCtrl', TodoCtrl);
+
+  todoFactory.$inject = ['$http','$q', 'APP_CONSTANT'];
+  function todoFactory($http, $q, APP_CONSTANT) {
+    return {
+        addTodoList: addTodoList,
+      fetchTodoList: fetchTodoList
+    };
+
+    function fetchTodoList() {
+
+      return $http.get(APP_CONSTANT.baseURL + '/todos')
+          .then(function (options) {
+            return options.data;
+          });
+
+    }
+
+        function addTodoList(todo) {
+            var deferred, request ;
+
+            request = JSON.stringify(todo);
+
+            deferred = $q.defer();
+            console.info(todo );
+
+
+            $http.post(APP_CONSTANT.baseURL + '/todos', request,{'Content-type': 'application/json'})
+                    .then(function(data) {
+                if(data) {
+                    console.info(data);
+                    deferred.resolve(data);
+                } else {
+                    console.log(data);
+                    deferred.reject(data);
+                }
+            },function(error) {
+                console.error(error);
+                deferred.reject(error);
+            });
+
+//            return $http.post(APP_CONSTANT.baseURL + '/todos', newTodoObject )
+//                    .then(function (options) {
+//                        console.log(options);
+//                        return options.data;
+//                    });
+            return deferred.promise;
+        }
+
+  }
+
+  TodoCtrl.$inject = ['$scope', 'todoFactory'];
+  function TodoCtrl($scope, todoFactory) {
+
+  /*VM functions*/
+    $scope.fetchTodoList = fetchTodoList;
+    $scope.addTodoList = addTodoList;
+
+    /*VM properties*/
+    $scope.todos = [];
+
+    /*Initialization*/
+    fetchTodoList();
+
+    /*function declarations*/
+    function addTodoList(newTodoObject) {
+
+          todoFactory.addTodoList(newTodoObject);
+          $scope.newTodoObject = {};
+
+    }
+
+    function fetchTodoList() {
+
+      $scope.todos = [];
+
+      todoFactory.fetchTodoList()
+          .then(function (todos) {
+            $scope.todos = todos;
+            console.log(todos);
+          }, function (reason) {
+            console.log('error', reason);
+          });
+    }
+  }
+
+</script>
+</body>
+</html>

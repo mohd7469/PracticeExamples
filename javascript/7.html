@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+
+<script>
+
+    var name = prompt("enter your name");
+    var randomNumber = Math.floor(Math.random() * 6 ) + 1;
+    alert(randomNumber);
+    var guess = prompt('I have a number between 1 and 6. What is it?');
+
+    if (parseInt(guess) === randomNumber ) {
+
+        var confirm = confirm("Are you sure?");
+
+        if(confirm) {
+            alert('Good! ' + name + ' It is ' + randomNumber);
+        }
+        else{
+            alert('Oh! you were close');
+        }
+    }
+    else {
+        alert('Sorry! The number was ' + randomNumber);
+    }
+
+</script>
+
+</body>
+</html>

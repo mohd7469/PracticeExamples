@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<script>
+
+    function Vahical(name, color, model) {
+        this.name = name;
+        this.color = color;
+        this.model = model;
+    }
+    Vahical.prototype.horn = function () {
+        return "beeeeep";
+    };
+    var car = new Vahical('Honda', 2005);
+    console.log(car.horn());
+    var truck = new Vahical('Hino', 2012);
+    console.log(truck.horn());
+
+
+
+</script>
+</body>
+</html>

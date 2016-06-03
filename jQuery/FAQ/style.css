@@ -1,0 +1,27 @@
+
+dt {
+    text-align: center;
+    margin: 0px 10em;
+    padding: 5px;
+    font-size: 1.5em;
+    background: lightgrey;
+    border-radius: 1px;
+    border-bottom: 1px solid grey;
+    border-top: 1px solid white;
+    cursor: pointer;
+}
+
+dd {
+    text-align: center;
+    margin: 0px 15em;
+    padding: 5px;
+    font-size: 1em;
+    background: honeydew;
+    border-radius: 1px;
+
+}
+
+dt:nth-last-child(2) {
+    border-bottom: 2px solid white;
+
+}

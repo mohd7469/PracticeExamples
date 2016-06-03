@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" data-ng-app="basicApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Angular app</title>
+    <script src="./angular.min.js"></script>
+</head>
+<body>
+
+<div ng-controller="MainCtrl">
+    <h3><i>Add Users</i></h3>
+
+    Name : <input type="text" ng-model="newUser.name"/><br/>
+    ID : <input type="number" ng-model="newUser.id"/><br/>
+    <button ng-click="addUsers(newUser)">save</button>
+
+    <hr/>
+
+    <h3><i>Fetch  Users</i></h3>
+
+    <button ng-click="fetchUsers()" ng-hide="status.sending">Fetch users</button>
+    <button ng-show="status.sending">Fetching..</button>
+
+    <hr/>
+
+    <div ng-show="status.sending">Please wait...</div>
+    <div ng-hide="status.sending">
+        <table border="1" >
+            <tr>
+                <td colspan="2">
+                    <input type="text" placeholder="*****search users*****" ng-model="search"/>
+                </td>
+            </tr>
+
+            <tr>
+                <td>#ID</td>
+                <td>Name</td>
+            </tr>
+
+            <tr ng-repeat="user in users | filter: search">
+                <td>
+                    {{user.id}}
+                </td>
+                <td>
+                    {{user.name}}
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+</div>
+
+
+
+
+<script>
+    var app = angular
+            .module('basicApp', []);
+
+    app.constant('APP_CONSTANT', {
+        baseURL: 'http://'
+    });
+
+    app.factory('userFactory', function ($q, APP_CONSTANT) {
+        var users = [
+            {
+                id: '7',
+                name: 'awais'
+            }, {
+                id: '4',
+                name: 'shezi'
+            }, {
+                id: '5',
+                name: 'adeel'
+            }
+        ];
+
+        return {
+            fetchUsers: fetchUsers,
+            addUsers: addUsers,
+            getUsers: getUsers
+        };
+
+
+        //add users in the list
+        function addUsers(user) {
+            var userIDFound = false;
+
+            for(var userId in users) {
+                if(users[userId].id == user.id) {
+                    alert('sorry! userID already exist');
+                    userIDFound = true;
+                    break;
+                }
+            }
+            if(!userIDFound) {
+                users.push(user);
+                console.info('user Added!');
+            }
+
+        };
+
+        //return users
+        function getUsers() {
+            return users;
+        }
+
+        //gets users list from server
+        function fetchUsers() {
+            console.log('requesting');
+
+            var deferred;
+            deferred = $q.defer();
+
+            setTimeout(function () {
+                deferred.resolve(getUsers());
+            }, 2000);
+          //deferred.reject('you do not have any list of users.');
+
+            return deferred.promise;
+        }
+
+
+
+
+    });
+
+    app.controller('MainCtrl', function ($scope, userFactory) {
+        console.info('ctrl initialized');
+
+        /*VM properties*/
+        $scope.search = '';
+        $scope.users = [];
+        $scope.status = {
+            sending: false,
+            error: ''
+        };
+
+        /*VM functions*/
+        $scope.fetchUsers = fetchUsers;
+        $scope.addUsers = addUsers;
+
+
+        //add user into list
+        function addUsers(newUser) {
+            if(newUser.name && newUser.id && newUser != undefined) {
+                userFactory.addUsers(newUser);
+                $scope.newUser = {};
+            } else {
+                alert('field are empty!');
+            }
+        }
+        //fetches users list
+        function fetchUsers() {
+            $scope.status.sending = true;
+
+            userFactory.fetchUsers()
+                    .then(function (users) {
+
+                        $scope.status.sending = false;
+                        $scope.users = users;
+                        console.info('successfully fetched!');
+                    }, function (reason) {
+
+                        console.error('users not found', reason);
+                    });
+        }
+
+
+    });
+
+</script>
+</body>
+</html>

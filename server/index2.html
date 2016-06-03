@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>AJAX TODO</title>
+    <script src="./jquery.min.js"></script>
+    <script src="./angular.min.js"></script>
+  <script src="./server.js"></script>
+</head>
+<body>
+<h2>AJAX TODO APP</h2>
+
+<div ng-controller="AddTodoCtrl">
+    <form data-ng-submit="addTodo(newTodoObject)">
+        Name : <input type="text" ng-model="newTodoObject.name"/><br/>
+        ID : <input type="number" ng-model="newTodoObject.id"/><br/>
+        <input type="submit" value="save"/>
+    </form>
+
+</div>
+<hr/>
+<div ng-controller="GetTodoCtrl">
+    <button ng-click="getTodo()" data-ng-hide="status.fetching">GetTodo</button>
+    <button data-ng-show="status.fetching">Requesting..</button>
+  <ul>
+    <li ng-repeat="todo in todos">
+        #{{todo.id}} : {{todo.name}}
+    </li>
+  </ul>
+</div>
+
+
+
+<script>
+
+
+  var app = angular.module('myApp', []);
+
+  app.factory('todoFactory', todoFactory);
+
+  app.controller('AddTodoCtrl', AddTodoCtrl);
+  app.controller('GetTodoCtrl', GetTodoCtrl);
+
+  app.constant('APP_CONSTANT', {
+      baseURL: 'http://localhost:3000'
+  });
+
+  todoFactory.$inject = ['$http', 'APP_CONSTANT', '$q'];
+
+  function todoFactory($http, APP_CONSTANT, $q) {
+
+      return {
+          addTodoList: addTodoList,
+          fetchTodoList: fetchTodoList
+      };
+
+      function addTodoList(newTodoObject) {
+
+          var data = $.param({
+              json: JSON.stringify(newTodoObject)
+          });
+          $http.post(APP_CONSTANT.baseURL + '/todos', data)
+                  .success(function(data, status) {
+                      console.log('success post');
+                  }.error(function (reason) {
+                              console.log('error due to ' + reason);
+
+                          }));
+
+
+      }
+/**/
+
+      function fetchTodoList() {
+          var deferred;
+          deferred = $q.defer();
+          console.log(deferred);
+
+
+          //mock - AJAX
+//          setTimeout(function () {
+//              deferred.resolve([
+//                  {
+//                      id: '1',
+//                      name: 'User1'
+//                  }, {
+//                      id: '2',
+//                      name: 'User2'
+//                  }, {
+//                      id: '3',
+//                      name: 'User3'
+//                  }
+//              ]);
+//          }, 2000);
+//            deferred.reject('you do not have any list of users.');
+
+          return deferred.promise;
+
+
+      return $http.get(APP_CONSTANT.baseURL + '/todos')
+          .then(function (res) {
+            console.log(res);
+          }, function (reason) {
+            console.log(reason);
+          });
+      }
+
+
+      /**/
+//      function fetchTodoList() {
+//          var deferred;
+//
+//          deferred = $q.defer();
+//
+//          console.log('requesting');
+//
+//          setTimeout(function () {
+//              return $http.get(APP_CONSTANT.baseURL + '/todos')
+//                      .then(function (options) {
+//                          console.log(options.data);
+//                          deferred.resolve(options.data);
+//
+//                      });
+//          }, 1000);
+          return deferred.promise;
+//
+//      }
+
+
+  }
+
+  AddTodoCtrl.$inject = ['$scope', 'todoFactory'];
+  GetTodoCtrl.$inject = ['$scope', 'todoFactory'];
+
+  function AddTodoCtrl($scope, todoFactory) {
+
+    /*VM properties*/
+
+    /*VM functions*/
+    $scope.addTodo = addTodo;
+
+    /*Initialization*/
+
+    /*function declarations*/
+    function addTodo(newTodoObject) {
+
+        console.log(newTodoObject);
+        todoFactory.addTodoList(newTodoObject);
+        $scope.newTodoObject = {};
+
+    }
+  }
+  function GetTodoCtrl($scope, todoFactory) {
+
+    /*VM properties*/
+    $scope.todos = [];
+      $scope.status = {
+          fetching: false
+      };
+
+    /*VM functions*/
+    $scope.getTodo = getTodo;
+
+    /*Initialization*/
+
+    /*function declarations*/
+    function getTodo() {
+        $scope.todos = [];
+        $scope.status.fetching = true;
+
+        console.log(todoFactory.fetchTodoList())
+                .then(function (res) {
+                    console.log(res);
+                }, function (reason) {
+                    console.log(reason);
+
+                })
+
+    }
+
+  }
+
+</script>
+
+</body>
+</html>

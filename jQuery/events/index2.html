@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="day.css"/>
+</head>
+<body>
+
+<button data-file="day">Day</button>
+<button data-file="night">Night</button>
+
+
+<script src="../jquery.min.js"></script>
+<script>
+    (function () {
+        $('button').on('mouseover',function () {
+            var $this = $(this),
+                stylesheet = $this.data('file');
+
+            $('link').attr('href', stylesheet + '.css');
+            $this
+                    .siblings('button')
+                        .attr('disabled',false)
+//                        .removeAttr('disabled')
+                        .end()
+                        .attr('disabled',true);
+
+        })
+
+    })();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<script>
+
+    // not catch local variable during call and apply
+    function class1()
+    {
+        this.a = 1;
+        var a = 3;
+        this.result = function() {
+            console.info(this.a * 10 - 5);
+            console.error(this); // this = 2
+        };
+
+    }
+
+    function class2()
+    {
+        var a = 23;
+        this.a = 2;
+        a = 17;
+    }
+
+    var c1 = new class1();
+    var c2 = new class2();
+
+    c1.result.call(c2); // = 2 * 10 - 5 = 15
+
+    c1.result(); // = 1 * 10 - 5 = 5
+
+</script>
+</body>
+</html>

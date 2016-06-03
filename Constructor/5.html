@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<script>
+
+    function Price(productName, productPrice) {
+        this.productName= productName;
+        this.productPrice = productPrice;
+    };
+
+    Price.prototype.getPrice = function() {
+        console.info('price of ' + this.productName + ' is $' + this.productPrice);
+    };
+
+    Price.prototype.setPrice = function(cost) {
+        this.productPrice = cost;
+        console.warn('New price of ' + this.productName + ' is $' + this.productPrice);
+    };
+
+    Price.prototype.changeProductPrices = function (product, price) {
+        console.warn("Product's $ price are inter_changed!");
+        console.info(this.productName + ' is now $' + price + ' & ' + product + ' is of $' + this.productPrice);
+    };
+
+    Price.prototype.changeProduct = function (product) {
+        console.warn("Product's are inter_changed!");
+        console.info(this.productName + '(' + product + ') is of Price $' + this.productPrice);
+    };
+
+
+
+    var awais = {
+        productName: 'bubbly',
+        productPrice: 10
+    };
+    var shezi = {
+        productName: 'dairy milk',
+        productPrice: 5
+    };
+
+    var eclair = new Price('Eclair', 1);
+    eclair.getPrice();
+    eclair.setPrice(2);
+    eclair.changeProductPrices.call(awais, eclair.productName, eclair.productPrice);
+    eclair.changeProductPrices.apply(shezi, [eclair.productName, eclair.productPrice]);
+    eclair.changeProduct.call(shezi, eclair.productName);
+
+</script>
+</body>
+</html>

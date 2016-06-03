@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myAPP">
+<head>
+  <meta charset="UTF-8">
+  <title>AJAX TODO</title>
+  <script src="./angular.min.js"></script>
+</head>
+<body>
+<h2>AJAX TODO APP</h2>
+<div ng-controller="TodoCtrl">
+  <button ng-click="fetchTodoList()">Refresh</button>
+  <ul>
+    <li ng-repeat="todo in todos">{{todo.text}}</li>
+  </ul>
+</div>
+<script>
+  var app = angular.module('myAPP', []);
+
+  app.constant('APP_CONSTANT', {
+    baseURL: 'http://localhost:3000'
+  });
+
+  app.factory('todoFactory', todoFactory);
+  app.controller('TodoCtrl', TodoCtrl);
+
+  todoFactory.$inject = ['$http', 'APP_CONSTANT'];
+  function todoFactory($http, APP_CONSTANT) {
+    return {
+      fetchTodoList: fetchTodoList
+    };
+
+    function fetchTodoList() {
+      return $http.get(APP_CONSTANT.baseURL + '/todos')
+          .then(function (options) {
+            return options.data;
+          });
+    }
+  }
+
+  TodoCtrl.$inject = ['$scope', 'todoFactory'];
+  function TodoCtrl($scope, todoFactory) {
+
+    /*VM functions*/
+    $scope.fetchTodoList = fetchTodoList;
+
+    /*VM properties*/
+    $scope.todos = [];
+
+    /*Initialization*/
+    fetchTodoList();
+
+    /*function declarations*/
+    function fetchTodoList() {
+
+      $scope.todos = [];
+
+      todoFactory.fetchTodoList()
+          .then(function (todos) {
+            $scope.todos = todos;
+            console.log(todos);
+          }, function (reason) {
+            console.log('error', reason);
+          });
+    }
+  }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<script>
+
+    function add(x, y)
+    {
+        console.error(this);
+        console.info(x + y);
+    }
+    function subtract(x, y)
+    {
+        console.error(this);
+        console.warn(x - y);
+    }
+    subtract.call(add, 2, 1);
+//    add.call(subtract, 2, 1);
+    add.apply(subtract, [2, 1]);
+//    subtract.apply(add, [2, 1]);
+//    add.call(add, 2, 1);
+//    subtract.call(subtract, 2, 1);
+
+</script>
+</body>
+</html>

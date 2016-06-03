@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+
+<script>
+    var i, count;
+    var str = "Who is this";
+    console.log(str.replace(/[^A-Z]/g, "").length);
+    function isUpperCase(aCharacter)
+    {
+        return (aCharacter >= 'A') && (aCharacter <= 'Z');
+    }
+    console.log(isUpperCase(str));
+    var str = "ab Ab AB";
+
+    for(var i = 0, len = str.length, count=0, ch; i < len; ++i)
+    {
+        ch = str.charAt(i);
+        console.log(ch);
+        if(ch >= 'a' && ch <= 'z') ++count;
+    }
+
+    console.log(len);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="day.css"/>
+</head>
+<body>
+
+<button data-file="day">Day</button>
+<button data-file="night">Night</button>
+
+
+<script src="../jquery.min.js"></script>
+<script>
+    (function () {
+        var link = $('link');
+        $('button').click(function () {
+//            var text = $(this).text().toLowerCase();
+//            var text = $(this).attr('data-file');
+            var text = $(this).data('file');
+//            console.log(text);
+//            $('link').attr('href',text+'.css');
+            link.attr('href',text+'.css');
+        })
+    })();
+</script>
+</body>
+</html>
